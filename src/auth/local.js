@@ -6,7 +6,7 @@ const { Strategy: LocalStrategy } = require('passport-local')
 
 const { authenticate } = require('./jwt')
 
-module.exports = (options) => {
+module.exports = options => {
   passport.use(
     new LocalStrategy(function (username, password, done) {
       done(null, { name: username })

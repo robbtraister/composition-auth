@@ -15,8 +15,8 @@ function authenticate (strategy, options) {
   const successRedirect = !options.successRedirect
     ? null
     : options.successRedirect instanceof Function
-      ? options.successRedirect
-      : () => options.successRedirect
+    ? options.successRedirect
+    : () => options.successRedirect
 
   return (req, res, next) => {
     if (req.user) {
@@ -47,7 +47,8 @@ module.exports = options => {
     new JwtStrategy(
       {
         secretOrKey: options.secret,
-        jwtFromRequest: req => req && req.cookies && req.cookies[options.cookie],
+        jwtFromRequest: req =>
+          req && req.cookies && req.cookies[options.cookie],
         algorithms: [algorithm]
       },
       function (payload, done) {
