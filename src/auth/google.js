@@ -9,8 +9,11 @@ const { authenticate } = require('./jwt')
 
 const defaultRedirect = '/'
 
-module.exports = { google }
-  ? () => {
+module.exports = (options) => {
+  const { google } = options
+
+  return (google)
+    ? () => {
       passport.use(
         new GoogleStrategy(
           {
@@ -31,6 +34,7 @@ module.exports = { google }
       router.use('/callback', bodyParser.urlencoded({ extended: true }))
       router.use((req, res, next) =>
         authenticate('google', {
+          ...options,
           scope: ['email', 'profile'],
           state: req.query.redirect
             ? JSON.stringify({ redirect: req.query.redirect })
@@ -47,6 +51,7 @@ module.exports = { google }
 
       return router
     }
-  : () => (req, res, next) => {
+    : () => (req, res, next) => {
       res.sendStatus(405)
     }
+}

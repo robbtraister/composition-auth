@@ -6,7 +6,7 @@ const { Strategy: LocalStrategy } = require('passport-local')
 
 const { authenticate } = require('./jwt')
 
-module.exports = () => {
+module.exports = (options) => {
   passport.use(
     new LocalStrategy(function (username, password, done) {
       done(null, { name: username })
@@ -16,6 +16,7 @@ module.exports = () => {
   return [
     bodyParser.urlencoded({ extended: true }),
     authenticate('local', {
+      ...options,
       successRedirect: req => (req && req.body && req.body.redirect) || '/'
     })
   ]
